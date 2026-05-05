@@ -1,0 +1,143 @@
+---
+title: "Getting Started with pgscatalogcolors"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with pgscatalogcolors}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 7,
+  fig.height = 4.5
+)
+```
+
+```{r load}
+library(pgscatalogcolors)
+library(ggplot2)
+```
+
+## What ancestry acronyms are available?
+
+The package maps **19 ancestry categories** defined by the
+[PGS Catalog ancestry documentation](https://www.pgscatalog.org/docs/ancestry/).
+Call `pgscatalog_ancestry_info()` to see the full lookup table:
+
+```{r info}
+pgscatalog_ancestry_info()
+```
+
+The columns are:
+
+| Column | Description |
+|--------|-------------|
+| `acronym` | The **exact string** your data column must contain |
+| `ancestry` | Full PGS Catalog ancestry label |
+| `pop_group` | Broader population group abbreviation (1000G/HGDP-style) |
+| `color` | Hex color assigned to that acronym |
+
+## What does my data frame need?
+
+Your data frame needs **one column whose values are ancestry acronyms** — the
+exact strings from the `acronym` column above (case-sensitive). The column can
+have any name; you point ggplot2 to it with `aes(color = <your_column>)`.
+
+```{r data-requirements}
+# Minimal working example
+df <- data.frame(
+  sample_id  = paste0("s", 1:6),
+  pgs_score  = c(0.42, -0.11, 0.87, 0.03, -0.55, 0.29),
+  ancestry   = c("EUR", "AFR", "EAS", "SAS", "HIS", "MID")
+  #              ^-- must match acronyms exactly
+)
+df
+```
+
+The `ancestry` column values must be **character or factor** — numeric codes
+will not match. The column does **not** need to contain all 19 acronyms; only
+the ones present in your data are plotted.
+
+## Basic scatter plot
+
+```{r scatter}
+set.seed(1)
+n   <- 200
+grp <- c("EUR", "AFR", "EAS", "SAS", "HIS", "MID")
+
+df <- data.frame(
+  PC1      = rnorm(n),
+  PC2      = rnorm(n),
+  ancestry = sample(grp, n, replace = TRUE,
+                    prob = c(0.40, 0.15, 0.15, 0.12, 0.10, 0.08))
+)
+
+ggplot(df, aes(PC1, PC2, color = ancestry)) +
+  geom_point(size = 2.5, alpha = 0.85) +
+  scale_color_pgscatalog() +
+  labs(title = "PCA by ancestry", color = "Ancestry") +
+  theme_classic()
+```
+
+## Bar chart (fill aesthetic)
+
+```{r bar}
+counts <- data.frame(
+  ancestry = c("EUR", "AFR", "EAS", "SAS", "HIS", "MID", "MIE", "MEE"),
+  n        = c(512, 198, 175, 143, 97, 61, 44, 18)
+)
+
+ggplot(counts, aes(reorder(ancestry, -n), n, fill = ancestry)) +
+  geom_col() +
+  scale_fill_pgscatalog() +
+  labs(x = "Ancestry", y = "Count", title = "Sample counts by ancestry") +
+  theme_classic() +
+  theme(legend.position = "none")
+```
+
+## Using `scale_color_manual()` directly
+
+If you need more control (e.g., custom legend labels), use
+`pgscatalog_scale_values()` to get only the colors for groups in your data:
+
+```{r manual}
+my_groups <- c("EUR", "AFR", "EAS")
+
+ggplot(df[df$ancestry %in% my_groups, ], aes(PC1, PC2, color = ancestry)) +
+  geom_point(size = 2.5) +
+  scale_color_manual(
+    values = pgscatalog_scale_values(my_groups),
+    labels = c(AFR = "African", EAS = "East Asian", EUR = "European")
+  ) +
+  theme_classic()
+```
+
+## Checking colors programmatically
+
+```{r check}
+# Look up specific colors by acronym
+pgscatalog_cols("EUR", "AFR", "EAS")
+
+# Check whether your acronyms are all recognized before plotting
+my_data_groups <- c("EUR", "AFR", "XYZ")   # "XYZ" is not a valid acronym
+pgscatalog_scale_values(my_data_groups)     # warns about unknown acronyms
+```
+
+## What if my data uses full ancestry names instead of acronyms?
+
+Join against `pgscatalog_ancestry_info()` to add the acronym column:
+
+```{r join}
+raw <- data.frame(
+  sample_id = 1:3,
+  ancestry_long = c("European", "African unspecified", "East Asian")
+)
+
+info <- pgscatalog_ancestry_info()
+merged <- merge(raw, info[, c("ancestry", "acronym")],
+                by.x = "ancestry_long", by.y = "ancestry")
+merged
+```
