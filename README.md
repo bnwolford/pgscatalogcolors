@@ -89,9 +89,35 @@ pgscatalog_cols("EUR", "AFR", "EAS")
 #> "#377EB8" "#F9DA49" "#68AD57"
 ```
 
+### Fuzzy-match messy ancestry labels
+
+If your labels have typos, inconsistent capitalisation, or use underscores/hyphens as separators, `pgscatalog_match()` will resolve them to acronyms automatically. It tries exact acronym match, then exact full-name match, then edit-distance fuzzy matching.
+
+```r
+pgscatalog_match(c("EUR", "eur", "european", "East Asian", "east_asian"))
+#> [1] "EUR" "EUR" "EUR" "EAS" "EAS"
+
+pgscatalog_match(c("Europeen", "Sub-Saharan African", "sas"))
+#> Warning: Fuzzy matches accepted (verify these are correct):
+#>   "Europeen" -> EUR
+#> [1] "EUR" "SAF" "SAS"
+```
+
+Typical workflow — clean the column once, then plot:
+
+```r
+df$acronym <- pgscatalog_match(df$ancestry_raw)
+
+ggplot(df, aes(OR, ancestry, color = acronym)) +
+  geom_point() +
+  scale_color_pgscatalog()
+```
+
+Labels with no match within `max_dist` edits (default 3) return `NA` with a warning.
+
 ### Convert full ancestry names to acronyms
 
-If your data uses full names (e.g., "European") rather than acronyms, join against the lookup table:
+If your labels are exact full names (e.g., "European"), `pgscatalog_match()` handles this directly. For a manual join:
 
 ```r
 info <- pgscatalog_ancestry_info()
