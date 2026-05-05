@@ -7,7 +7,7 @@ Description: Provides color palettes based on the PGS Catalog ancestry
     classification system. Maps ancestry acronyms to their official colors,
     enabling consistent and reproducible visualizations of genetic ancestry
     data. Includes ggplot2 scale functions for easy integration.
-License: CC BY-NC-SA 4.0
+License: GPL-3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 Imports:
@@ -18,5 +18,6 @@ Suggests:
     rmarkdown,
     scales
 VignetteBuilder: knitr
-URL: https://www.pgscatalog.org/docs/ancestry/
+URL: https://github.com/bnwolford/pgscatalogcolors, https://www.pgscatalog.org/docs/ancestry/
+BugReports: https://github.com/bnwolford/pgscatalogcolors/issues
 Config/roxygen2/version: 8.0.0

@@ -67,7 +67,7 @@ NULL
   "AFR", "MIE", "MEE"
 )
 
-.pgscatalog_env$pop_colors <- stats::setNames(
+.pgscatalog_env$pop_colors <- setNames(
   c("#999999", "#F9DA49", "#F9DA49", "#B25928", "#B25928", "#68AD57",
     "#377EB8", "#5DCBCF", "#D1352B", "#999999", "#BBBBBB", "#999999",
     "#999999", "#999999", "#984EA4", "#B25928", "#F9DA49", "#E887BD",

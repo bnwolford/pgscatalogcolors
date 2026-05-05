@@ -27,7 +27,7 @@ pgscatalog_cols <- function(...) {
 pgscatalog_palettes <- function() {
   list(
     unique = .pgscatalog_env$colors,
-    population = unique(stats::setNames(
+    population = unique(setNames(
       c("#F9DA49", "#B25928", "#68AD57", "#377EB8", "#5DCBCF",
         "#D1352B", "#999999", "#BBBBBB", "#984EA4", "#E887BD", "#EF8632"),
       c("AFR", "ASN", "EAS", "EUR", "MID",
@@ -81,7 +81,7 @@ pgscatalog_scale_values <- function(acronyms = NULL) {
   if (length(missing) > 0) {
     warning("Unknown acronyms (will use grey): ",
             paste(missing, collapse = ", "))
-    extra <- stats::setNames(rep("#999999", length(missing)), missing)
+    extra <- setNames(rep("#999999", length(missing)), missing)
     all_cols <- c(all_cols, extra)
   }
   all_cols[acronyms]

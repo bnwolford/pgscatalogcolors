@@ -125,4 +125,4 @@ merged <- merge(your_df, info[, c("ancestry", "acronym")],
 
 ## License
 
-CC BY-NC-SA 4.0 © Brooke N. Wolford
+GPL-3 © Brooke N. Wolford

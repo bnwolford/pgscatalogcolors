@@ -27,7 +27,9 @@ a specific hex color, enabling consistent visualizations across studies.
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://github.com/bnwolford/pgscatalogcolors}
   \item \url{https://www.pgscatalog.org/docs/ancestry/}
+  \item Report bugs at \url{https://github.com/bnwolford/pgscatalogcolors/issues}
 }
 
 }

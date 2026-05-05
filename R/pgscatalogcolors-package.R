@@ -18,4 +18,5 @@
 #' }
 #'
 #' @name pgscatalogcolors-package
+#' @importFrom stats setNames
 NULL
