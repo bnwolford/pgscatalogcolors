@@ -126,9 +126,50 @@ my_data_groups <- c("EUR", "AFR", "XYZ")   # "XYZ" is not a valid acronym
 pgscatalog_scale_values(my_data_groups)     # warns about unknown acronyms
 ```
 
+## What if my labels have typos or inconsistent formatting?
+
+Use `pgscatalog_match()` to fuzzy-match a column of messy ancestry labels to
+their PGS Catalog acronyms. Matching tries exact acronym, then exact full name,
+then edit-distance fuzzy matching — in that order.
+
+```{r fuzzy-basic}
+messy <- c("EUR", "eur", "european", "East Asian", "east_asian", "EAST ASIAN")
+pgscatalog_match(messy, quiet = TRUE)
+```
+
+Fuzzy matches (within `max_dist` edits, default 3) always produce a warning so
+you can verify them:
+
+```{r fuzzy-warn}
+pgscatalog_match(c("Europeen", "sas", "Sub-Saharan African"))
+```
+
+Labels with no match within `max_dist` return `NA` with a warning:
+
+```{r fuzzy-na}
+pgscatalog_match(c("EUR", "martian", "unknown_ancestry"))
+```
+
+The typical workflow is to call `pgscatalog_match()` once to add a clean acronym
+column, then pass that column to the ggplot2 scales:
+
+```{r fuzzy-workflow}
+df_messy <- data.frame(
+  sample_id     = paste0("s", 1:6),
+  pgs_score     = c(0.42, -0.11, 0.87, 0.03, -0.55, 0.29),
+  ancestry_raw  = c("european", "African American or Afro-Caribbean",
+                    "east_asian", "South Asian", "HIS", "mid")
+)
+
+df_messy$ancestry <- pgscatalog_match(df_messy$ancestry_raw, quiet = TRUE)
+df_messy[, c("ancestry_raw", "ancestry")]
+```
+
 ## What if my data uses full ancestry names instead of acronyms?
 
-Join against `pgscatalog_ancestry_info()` to add the acronym column:
+For exact full names, `pgscatalog_match()` handles this directly. For cases
+where you want to inspect or customise the mapping, you can also join against
+`pgscatalog_ancestry_info()` manually:
 
 ```{r join}
 raw <- data.frame(
