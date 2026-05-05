@@ -1,0 +1,19 @@
+Package: pgscatalogcolors
+Title: Color Palettes for PGS Catalog Ancestry Groups
+Version: 0.1.0
+Authors@R:
+    person("Brooke N.", "Wolford", , "brookenicholewolford@gmail.com", role = c("aut", "cre"))
+Description: Provides color palettes based on the PGS Catalog ancestry
+    classification system. Maps ancestry acronyms to their official colors,
+    enabling consistent and reproducible visualizations of genetic ancestry
+    data. Includes ggplot2 scale functions for easy integration.
+License: CC BY-NC-SA 4.0
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+Imports:
+    ggplot2,
+    grDevices
+Suggests:
+    scales
+URL: https://www.pgscatalog.org/docs/ancestry/
+Config/roxygen2/version: 8.0.0
