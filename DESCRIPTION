@@ -1,6 +1,6 @@
 Package: pgscatalogcolors
 Title: Color Palettes for PGS Catalog Ancestry Groups
-Version: 0.1.0
+Version: 0.1.0.9000
 Authors@R:
     person("Brooke N.", "Wolford", , "brookenicholewolford@gmail.com", role = c("aut", "cre"))
 Description: Provides color palettes based on the PGS Catalog ancestry
