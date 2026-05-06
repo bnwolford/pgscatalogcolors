@@ -1,8 +1,14 @@
 Package: pgscatalogcolors
 Title: Color Palettes for PGS Catalog Ancestry Groups
-Version: 0.1.0.9000
+Version: 0.1.0
 Authors@R:
-    person("Brooke N.", "Wolford", , "brookenicholewolford@gmail.com", role = c("aut", "cre"))
+    c(person("Brooke N.", "Wolford",
+             email = "brookenicholewolford@gmail.com",
+             role  = c("aut", "cre"),
+             comment = c(ORCID = "0000-0003-3153-1552")),
+      person("Norwegian University of Science and Technology",
+             role    = "fnd",
+             comment = c(ROR = "https://ror.org/05xg72x27")))
 Description: Provides color palettes based on the PGS Catalog ancestry
     classification system. Maps ancestry acronyms to their official colors,
     enabling consistent and reproducible visualizations of genetic ancestry

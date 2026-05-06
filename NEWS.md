@@ -1,5 +1,3 @@
-# pgscatalogcolors 0.1.0.9000 (alpha)
-
 # pgscatalogcolors 0.1.0
 
 * Initial release.
