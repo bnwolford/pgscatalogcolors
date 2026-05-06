@@ -158,6 +158,83 @@ my_data_groups <- c("EUR", "AFR", "XYZ")   # "XYZ" is not a valid acronym
 pgscatalog_scale_values(my_data_groups)     # warns about unknown acronyms
 ```
 
+## Color vision deficiency
+
+The PGS Catalog palette was not originally designed with color vision deficiency
+(CVD) in mind. Use `pgscatalog_cvd()` to simulate how the palette appears under
+deuteranopia, protanopia, and tritanopia, and to identify which ancestry pairs
+fall below a perceptual distance threshold (CIEDE2000 delta-E).
+
+```{r cvd, message = FALSE}
+library(colorspace)
+library(farver)
+
+# Returns a data frame of flagged pairs, sorted by delta-E ascending
+cvd_df <- pgscatalog_cvd(threshold = 20)
+print(cvd_df[, c("cvd_type", "acronym1", "acronym2", "delta_e")])
+```
+
+Delta-E thresholds to interpret the results:
+
+| Delta-E | Interpretation |
+|---------|----------------|
+| < 2.3 | Perceptually identical under that CVD type |
+| 2.3 – 10 | Difficult to distinguish, especially for small plot elements |
+| 10 – 20 | Potentially confusable; consider a supplementary encoding |
+
+### Known problematic pairs
+
+The most severe conflicts in the palette are:
+
+**Deuteranopia** (red-green; affects ~8% of males — the most clinically
+relevant type):
+
+- **ASN / HIS** — delta-E **1.7** (perceptually identical; brown and red
+  become almost the same olive-brown)
+- **EUR / SAS** — delta-E **4.0** (blue and purple converge strongly)
+- **MID / MIE** — delta-E **5.4**
+- **NON / MIE** — delta-E **7.9**
+
+**Protanopia** (red-green):
+
+- **ASN / HIS** — delta-E **5.5**
+- **EAS / MEE** — delta-E **6.0**
+- **MID / NON** — delta-E **6.1**
+
+**Tritanopia** (blue-yellow; rare, < 0.01%):
+
+- **MIE / MEE** — delta-E **8.9**
+- **ASN / HIS** — delta-E **7.7**
+
+**Normal vision** (included for completeness):
+
+- **ABO / NON** — delta-E **9.8** (both grey by design)
+- **ASN / HIS** — delta-E **12.5**
+
+### Recommendations
+
+When a plot includes ancestry groups that form a problematic pair, supplement
+colour with a second visual encoding:
+
+```{r cvd-shape, fig.height = 3.5}
+set.seed(7)
+groups <- c("EUR", "SAS", "EAS", "AFR")   # EUR/SAS are a deuteranopia risk pair
+
+df_cvd <- data.frame(
+  PC1      = rnorm(120),
+  PC2      = rnorm(120),
+  ancestry = rep(groups, each = 30)
+)
+
+# Add shape mapping so EUR and SAS are distinguishable without colour
+ggplot(df_cvd, aes(PC1, PC2, color = ancestry, shape = ancestry)) +
+  geom_point(size = 2.5) +
+  scale_color_pgscatalog() +
+  scale_shape_manual(values = c(EUR = 16, SAS = 17, EAS = 15, AFR = 18)) +
+  labs(title = "Colour + shape encoding for CVD safety") +
+  theme_classic()
+```
+
 ## What if my labels have typos or inconsistent formatting?
 
 Use `pgscatalog_match()` to fuzzy-match a column of messy ancestry labels to

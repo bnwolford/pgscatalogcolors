@@ -2,6 +2,7 @@
 
 export(pgscatalog_ancestry_info)
 export(pgscatalog_cols)
+export(pgscatalog_cvd)
 export(pgscatalog_match)
 export(pgscatalog_pal)
 export(pgscatalog_palettes)
