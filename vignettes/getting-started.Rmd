@@ -1,5 +1,7 @@
 ---
 title: "Getting Started with pgscatalogcolors"
+author: "Brooke N. Wolford (ORCID: 0000-0003-3153-1552)"
+date: "pgscatalogcolors `r packageVersion('pgscatalogcolors')` — `r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Getting Started with pgscatalogcolors}
@@ -246,11 +248,19 @@ messy <- c("EUR", "eur", "european", "East Asian", "east_asian", "EAST ASIAN")
 pgscatalog_match(messy, quiet = TRUE)
 ```
 
-Fuzzy matches (within `max_dist` edits, default 3) always produce a warning so
-you can verify them:
+Fuzzy matches always produce a warning so you can verify them. The `max_dist`
+argument (default `3`) controls how many edits are allowed — lower values are
+stricter:
 
 ```{r fuzzy-warn}
+# Default max_dist = 3
 pgscatalog_match(c("Europeen", "sas", "Sub-Saharan African"))
+
+# Stricter: only accept 1-edit differences
+pgscatalog_match(c("Europeen", "sas", "Sub-Saharan African"), max_dist = 1)
+
+# More lenient: accept up to 5 edits
+pgscatalog_match(c("Afrikan", "sth_asian"), max_dist = 5)
 ```
 
 Labels with no match within `max_dist` return `NA` with a warning:
@@ -290,4 +300,18 @@ info <- pgscatalog_ancestry_info()
 merged <- merge(raw, info[, c("ancestry", "acronym")],
                 by.x = "ancestry_long", by.y = "ancestry")
 merged
+```
+
+## Citing this package
+
+If you use `pgscatalogcolors` in a publication, please cite it as follows:
+
+```{r citation}
+citation("pgscatalogcolors")
+```
+
+You can also retrieve the citation in BibTeX format:
+
+```{r citation-bib, comment = ""}
+toBibtex(citation("pgscatalogcolors"))
 ```

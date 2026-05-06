@@ -1,0 +1,9 @@
+bibentry(
+  bibtype  = "Manual",
+  title    = "{pgscatalogcolors}: Color Palettes for PGS Catalog Ancestry Groups",
+  author   = person("Brooke N.", "Wolford",
+                    comment = c(ORCID = "0000-0003-3153-1552")),
+  year     = "2026",
+  note     = paste0("R package version ", meta$Version),
+  url      = "https://github.com/bnwolford/pgscatalogcolors"
+)
