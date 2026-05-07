@@ -34,11 +34,16 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Brooke N. Wolford \email{brookenicholewolford@gmail.com}
+\strong{Maintainer}: Brooke N. Wolford \email{brookenicholewolford@gmail.com} (\href{https://orcid.org/0000-0003-3153-1552}{ORCID})
 
 Authors:
 \itemize{
-  \item Brooke N. Wolford \email{brookenicholewolford@gmail.com}
+  \item Brooke N. Wolford \email{brookenicholewolford@gmail.com} (\href{https://orcid.org/0000-0003-3153-1552}{ORCID})
+}
+
+Other contributors:
+\itemize{
+  \item Norwegian University of Science and Technology (\href{https://ror.org/05xg72x27}{ROR}) [funder]
 }
 
 }
