@@ -10,7 +10,7 @@ remotes::install_github("bnwolford/pgscatalogcolors")
 
 ## What your data needs
 
-Your data frame needs a column whose values correspond to **PGS Catalog ancestry acronyms**. The scale functions match the acronyms exactly and case-sensitively, but if your labels are messy (typos, inconsistent capitalisation, full names), use `pgscatalog_match()` first to convert them — see [Fuzzy matching](#fuzzy-matching-messy-labels) below. Call `pgscatalog_ancestry_info()` to see the full lookup table:
+Your data frame needs a column whose values correspond to **PGS Catalog ancestry acronyms**. The scale functions match the acronyms exactly and case-sensitively, but if your labels are messy (typos, inconsistent capitalisation, full names), use `pgscatalog_match()` first to convert them — see [Fuzzy matching](#fuzzy-match-messy-ancestry-labels) below. Call `pgscatalog_ancestry_info()` to see the full lookup table:
 
 ```r
 library(pgscatalogcolors)
