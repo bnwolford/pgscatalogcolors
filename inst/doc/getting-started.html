@@ -388,7 +388,8 @@ to see the full lookup table:</p>
 <tbody>
 <tr class="odd">
 <td><code>acronym</code></td>
-<td>The <strong>exact string</strong> your data column must contain</td>
+<td>The string the scale functions match against (exact, case-sensitive;
+use <code>pgscatalog_match()</code> to normalise messy labels)</td>
 </tr>
 <tr class="even">
 <td><code>ancestry</code></td>
@@ -408,9 +409,14 @@ to see the full lookup table:</p>
 <div id="what-does-my-data-frame-need" class="section level2">
 <h2>What does my data frame need?</h2>
 <p>Your data frame needs <strong>one column whose values are ancestry
-acronyms</strong> — the exact strings from the <code>acronym</code>
-column above (case-sensitive). The column can have any name; you point
-ggplot2 to it with <code>aes(color = &lt;your_column&gt;)</code>.</p>
+acronyms</strong>. The scale functions match these exactly and
+case-sensitively against the <code>acronym</code> column above. The
+column can have any name; you point ggplot2 to it with
+<code>aes(color = &lt;your_column&gt;)</code>.</p>
+<p>If your labels are messy — typos, inconsistent capitalisation, full
+names, or underscores as separators — use
+<code>pgscatalog_match()</code> to clean them up first (see <a href="#what-if-my-labels-have-typos-or-inconsistent-formatting">What if
+my labels have typos or inconsistent formatting?</a> below).</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Minimal working example</span></span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="at">sample_id  =</span> <span class="fu">paste0</span>(<span class="st">&quot;s&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>),</span>

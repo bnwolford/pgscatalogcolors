@@ -10,7 +10,7 @@ remotes::install_github("bnwolford/pgscatalogcolors")
 
 ## What your data needs
 
-Your data frame must have a column whose values are **PGS Catalog ancestry acronyms** — exact, case-sensitive strings. Call `pgscatalog_ancestry_info()` to see the full lookup table:
+Your data frame needs a column whose values are **PGS Catalog ancestry acronyms**. The scale functions match these exactly and case-sensitively, but if your labels are messy (typos, inconsistent capitalisation, full names), use `pgscatalog_match()` first to convert them — see [Fuzzy matching](#fuzzy-matching-messy-labels) below. Call `pgscatalog_ancestry_info()` to see the full lookup table:
 
 ```r
 library(pgscatalogcolors)
@@ -37,7 +37,7 @@ pgscatalog_ancestry_info()
 #> 19     MEE     Multi-Ancestry excluding Europeans     MEE #EF8632
 ```
 
-The values in your ancestry column must match the `acronym` column exactly. The column can have any name.
+The scale functions match values exactly and case-sensitively against the `acronym` column. The column can have any name. If your data uses full names, abbreviations with typos, or inconsistent formatting, pass the column through `pgscatalog_match()` first.
 
 ```r
 # Minimal example

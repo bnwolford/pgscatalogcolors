@@ -37,16 +37,21 @@ The columns are:
 
 | Column | Description |
 |--------|-------------|
-| `acronym` | The **exact string** your data column must contain |
+| `acronym` | The string the scale functions match against (exact, case-sensitive; use `pgscatalog_match()` to normalise messy labels) |
 | `ancestry` | Full PGS Catalog ancestry label |
 | `pop_group` | Broader population group abbreviation (1000G/HGDP-style) |
 | `color` | Hex color assigned to that acronym |
 
 ## What does my data frame need?
 
-Your data frame needs **one column whose values are ancestry acronyms** — the
-exact strings from the `acronym` column above (case-sensitive). The column can
-have any name; you point ggplot2 to it with `aes(color = <your_column>)`.
+Your data frame needs **one column whose values are ancestry acronyms**. The
+scale functions match these exactly and case-sensitively against the `acronym`
+column above. The column can have any name; you point ggplot2 to it with
+`aes(color = <your_column>)`.
+
+If your labels are messy — typos, inconsistent capitalisation, full names, or
+underscores as separators — use `pgscatalog_match()` to clean them up first
+(see [What if my labels have typos or inconsistent formatting?](#what-if-my-labels-have-typos-or-inconsistent-formatting) below).
 
 ```{r data-requirements}
 # Minimal working example
