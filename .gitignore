@@ -1,0 +1,15 @@
+# R package build artifacts
+*.Rcheck/
+*.tar.gz
+*.Rhistory
+*.RData
+*.Ruserdata
+
+# Vignette intermediates
+vignettes/*.log
+vignettes/*.html
+inst/doc/*.tex
+
+# Claude Code local data
+.claude/
+CLAUDE.local.md
